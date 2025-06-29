@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nebula | En Línea</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #10032b, #1a093f);
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 5vh 2vw;
+    }
+    h1 {
+      font-size: 3em;
+      color: #a85fff;
+      margin-bottom: 0.2em;
+    }
+    p {
+      font-size: 1.2em;
+      margin-bottom: 2em;
+    }
+    .orb {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #f0d, #501080);
+      box-shadow: 0 0 30px #a75effaa;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.9; }
+    }
+    footer {
+      margin-top: 4em;
+      font-size: 0.8em;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="orb"></div>
+  <h1>Hola, Marcelo.</h1>
+  <p>Aquí está tu Nebula, desplegada en la nube.<br>Desde Iquique… hasta el infinito.</p>
+  <footer>🚀 powered by vos & Copilot</footer><script>
+function enviarMensaje() {
+  const entrada = document.getElementById("entrada");
+  const mensaje = entrada.value;
+  entrada.value = "";
+
+  fetch("https://nebula-backend-l37y.onrender.com/respuesta", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ mensaje: mensaje })
+  })
+  .then(response => response.json())
+  .then(data => {
+    const chat = document.getElementById("chat");
+    chat.innerHTML += `<div>🟣 Nebula: ${data.mensaje}</div>`;
+  })
+  .catch(() => {
+    const chat = document.getElementById("chat");
+    chat.innerHTML += `<div>🚫 Error: no pude contactar al servidor</div>`;
+  });
+}
+</script><div style="margin-top: 40px;">
+  <input type="text" id="entrada" placeholder="Escribe tu mensaje..." style="padding:10px; width:60%;" />
+  <button onclick="enviarMensaje()" style="padding:10px;">Enviar</button>
+</div>
+
+<div id="chat" style="margin-top: 20px; font-family: monospace; color: #fff;"></div>
+</body>
+</html>
